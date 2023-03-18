@@ -1,0 +1,82 @@
+
+
+{% extends 'app/base.html' %}
+{% block content %}
+
+  <section id="main-container" class="main-container">
+    <div class="container">
+  
+      <div class="row">
+        <div class="col-lg-8">
+          <div id="page-slider" class="page-slider small-bg">
+            <div class="item">
+                <img style="max-height: 500px; max-width: 800px;" src="{{post.imageURL}}" />
+                <h1>{{ post.title }}</h1>
+            </div>
+          </div><!-- Page slider end -->
+        </div><!-- Slider col end -->
+  
+        <div class="col-lg-4 mt-5 mt-lg-0">
+            <h2>{{project.title}}</h2>
+            <div class="btn btn-primary">
+                Categories:&nbsp;
+                    {% for category in post.Categories.all %}
+                    <a href="{% url 'Site:post_category' category.name %}">
+                        {{ category.name }}
+                    </a>&nbsp;
+                
+                <span class="gallery-icon"><i class="fa fa-plus"></i></span>
+                {% endfor %}
+            </div>
+            {% if project.source_code %}
+            <p>
+                <div class="btn btn-dark">
+                    <a class="singleProject__liveLink" href="#" target="_blank"><i class="im im-external-link"></i>Source Code</a>
+                </div>
+            </p>
+            {% endif %}
+        
+
+        <hr>
+        <h3 class="singleProject__subtitle">About the Project</h3>
+
+
+        <p>{{ post.body | linebreaks }}</p>
+
+        <hr>
+
+        <h3>Leave a comment:</h3>
+        <form action="/{{ post.pk }}/" method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ form.body }}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <h3>Comments:</h3>
+        {% for comment in comments %}
+        <p>
+            on{{ comment.created_on.date }}&nbsp;
+            <b>{{ comment.profile.name }}</b> wrote:
+        </p>
+        <p>{{ comment.body }}</p>
+        <hr>
+        {% endfor %}
+  
+          
+        </div><!-- Content col end -->
+  
+      </div><!-- Row end -->
+  
+    </div><!-- Conatiner end -->
+  </section><!-- Main container end -->
+  
+{% endblock %}
+Categories:&nbsp;
+{% for category in post.Categories.all %}
+<a href="{% url 'Site:post_category' category.name %}">
+    {{ category.name }}
+</a>&nbsp;
+{% endfor %}
+    </div>

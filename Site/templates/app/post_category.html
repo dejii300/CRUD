@@ -1,0 +1,155 @@
+
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="slideshow-container">
+  
+    <div class="mySlides fade">
+      <div class="numbertext">1 / 3</div>
+      <img src="{% static 'images/slider-main/bg1.jpg' %}" style="max-height: 1000px; max-width: 2000px;">
+      <div class="text">project one</div>
+    </div>
+    
+    <div class="mySlides fade">
+      <div class="numbertext">2 / 3</div>
+      <img src="{% static 'images/slider-main/bg2.jpg' %}" style="max-height: 1000px; max-width: 2000px;">
+      <div class="text">Project two</div>
+    </div>
+    
+    <div class="mySlides fade">
+      <div class="numbertext">3 / 3</div>
+      <img src="{% static 'images/slider-main/bg3.jpg' %}" style="max-height: 1000px; max-width: 2000px;">
+      <div class="text">project Three</div>
+    </div>
+    
+    </div>
+    <br>
+    
+    <div style="text-align:center">
+      <span class="dot"></span> 
+      <span class="dot"></span> 
+      <span class="dot"></span> 
+    </div>
+    
+    <script>
+    let slideIndex = 0;
+    showSlides();
+    
+    function showSlides() {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {slideIndex = 1}    
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex-1].style.display = "block";  
+      dots[slideIndex-1].className += " active";
+      setTimeout(showSlides, 2000); // Change image every 0 second
+    }
+    </script>
+    <hr>
+    <section class="call-to-action-box no-padding">
+        <div class="container">
+          <div class="action-style-box">
+              <div class="row align-items-center">
+                <div class="col-md-8 text-center text-md-left">
+                    <div class="call-to-action-text">
+                      <h3 class="action-title">We understand your needs on projects</h3>
+                    </div>
+                </div><!-- Col end -->
+                <div class="col-md-4 text-center text-md-right mt-3 mt-md-0">
+                    <div class="call-to-action-btn">
+                      <a class="btn btn-dark" href="#">login/sign up</a>
+                    </div>
+                </div><!-- col end -->
+              </div><!-- row end -->
+          </div><!-- Action style box -->
+        </div><!-- Container end -->
+      </section><!-- Action end -->
+    
+    </body>
+    </html> 
+
+    {% for post in posts %}
+          <div class="row shuffle-wrapper">
+            <div class="col-1 shuffle-sizer"></div>
+  
+            <div class="col-lg-4 col-md-6 shuffle-item" data-groups="[&quot;government&quot;,&quot;healthcare&quot;]">
+              <div class="project-img-container">
+                <a class="gallery-popup" href="{{post.imageURL}}">
+                  <img class="img-fluid" src="{{post.imageURL}}" alt="project-image" style="height: 500px; width: 500px;">
+                  <span class="gallery-icon"><i class="fa fa-plus"></i></span>
+                </a>
+                <div class="project-item-info">
+                  <div class="project-item-info-content">
+                    <h3 class="project-item-title">
+                      <a href="{% url 'Site:post_detail' post.pk %}">{{post.title|truncatechars:50}} {% if project.topRated %}<strong>TOP RATED</strong> {% endif %}</a>
+                    </h3>
+                    <div class="project-cat">
+                        {% for category in post.Categories.all %}
+                      <span class="tag tag--pill tag--main">
+                        <a href="{% url 'Site:post_category' category.name %}">
+                            {{ category.name }}
+                        </a>&nbsp;
+                      </span>
+                      <span class="gallery-icon"><i class="fa fa-plus"></i></span>
+                      {% endfor %}
+                  </div>
+                    <small class="text-muted">{{post.body}}</small>
+                    <small class="text-muted">{{post.created_on}}</small>
+        
+                  </div>
+                </div>
+              </div>
+            </div>
+            <table>
+                 <td>
+                <div class="call-to-action-btn">
+                  <a class="btn btn-primary" href="{% url 'Site:post_edit' post.pk %}">Edit</a>
+                </div>
+                 </td>
+                 <td>
+                    <div class="call-to-action-btn">
+                      <a class="btn btn-primary" href="{% url 'Site:post_delete' post.pk %}">Delete</a>
+                    </div>
+                 </td>
+              </table>
+            </div><!-- shuffle item 1 end -->
+              {% endfor %}
+              <hr>
+  
+  
+        <div class="col-12">
+          <div class="general-btn text-center">
+            <a class="btn btn-primary" href="{% url 'Site:ex2'  %}">Projects Home</a>
+          </div>
+        </div>
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+        
+      </div><!-- Content row end -->
+  
+    </div><!-- Conatiner end -->
+  </section><!-- Main container end -->
+ 
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+
+<p>Are you sure you want to delete "{{book}}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <a href="{% url 'Site:post_detail' post.pk %}">cancel</a>
+    <input type="submit">
+</form>
+
+{% endblock %}
+
