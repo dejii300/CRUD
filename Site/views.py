@@ -40,7 +40,7 @@ class PostUpdateView( UpdateView):
     model = Post
     template_name = 'app/add.html'
     form_class = postForm
-    success_url = '/posts/'
+    success_url = '/'
 
 """
 class AddBookView(FormView):
@@ -69,13 +69,9 @@ class IndexView(TemplateView):
         return context
 """
 
-class LoginRequiredMixin(object):
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
-class PostIndexView(LoginRequiredMixin, ListView):
+class PostIndexView( ListView):
     model = Post
     template_name = "app/home.html"
     context_object_name = 'posts'
